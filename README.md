@@ -1,16 +1,26 @@
-### Hi there 👋
+## Github Stats
 
-<!--
-**wangzw/wangzw** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+<table>
+<tr>
+<td>
+<center>
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=taiyuuki&show_icons=true&hide_border=true&theme=vue-dark">
+<source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api?username=taiyuuki&show_icons=true&hide_border=true&theme=vue">
+<img alt="github-readme-stats" src="https://github-readme-stats.vercel.app/api?username=taiyuuki&show_icons=true&hide_border=true&theme=vue-dark">
+</picture>
+</enter>
+</td>
+<td>
+<center>
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=taiyuuki&layout=compact&langs_count=8&show_icons=true&hide_border=true&theme=vue-dark">
+<source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=taiyuuki&layout=compact&langs_count=8&show_icons=true&hide_border=true&theme=vue">
+<img alt="github-readme-stats" src="https://github-readme-stats.vercel.app/api/top-langs/?username=taiyuuki&layout=compact&langs_count=8&show_icons=true&hide_border=true&theme=vue-dark">
+</picture>
+</enter>
+</td>
+</tr》
+</table>
 
-Here are some ideas to get you started:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->

@@ -20,7 +20,5 @@
 </picture>
 </enter>
 </td>
-</tr》
+</tr>
 </table>
-
-

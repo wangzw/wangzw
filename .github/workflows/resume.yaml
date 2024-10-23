@@ -1,0 +1,70 @@
+# Sample workflow for building and deploying a Hugo site to GitHub Pages
+name: Deploy Resume Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+
+      - name: Generate PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            ZhanweiWang.tex
+            ZhanweiWang-CN.tex
+          working_directory: resume
+
+      - name: Copy artifact
+        run: |
+          set -eux
+          
+          mkdir -p public
+          /usr/bin/cp -a resume/ZhanweiWang.pdf public/ZhanweiWang.pdf
+          /usr/bin/cp -a resume/ZhanweiWang-CN.pdf public/ZhanweiWang-CN.pdf
+          /usr/bin/cp -a index.html public/index.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: "https://zhanwei.wang/wangzw/"
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

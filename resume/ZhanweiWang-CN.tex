@@ -1,186 +1,172 @@
 % !TEX encoding = UTF-8 Unicode
 % resume.tex
 % vim:set ft=tex spell:
+%
+% Minimalist single-column resume template.
+% Uses pdflatex + the classic CJK package (Arphic Type 1 fonts) and the
+% Helvetica Type 1 clone (helvet) for the Latin text. Type 1 fonts are the
+% most universally supported font format across PDF viewers (Preview,
+% Acrobat, Poppler/Okular/Evince, browsers, ...), which matters more here
+% than the marginally nicer OpenType rendering XeLaTeX + Fandol would give.
 
-\documentclass[10pt,letterpaper]{article}
-\usepackage[a4paper, top=2.0cm, left=2.5cm, right=2.0cm, bottom=2.0cm]{geometry}
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper, top=0.9cm, left=2.0cm, right=2.0cm, bottom=0.9cm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{CJK}
-\usepackage{mdwlist}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
-\usepackage{tgpagella}
+\usepackage{CJK}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{accent}{RGB}{31,58,94}
+\definecolor{subtle}{RGB}{100,100,100}
+\definecolor{rule}{RGB}{200,200,200}
+
 \pagestyle{empty}
-\setlength{\tabcolsep}{0em}
+\setlength{\parindent}{0pt}
 
-% indentsection style, used for sections that aren't already in lists
-% that need indentation to the level of all text in the document
-\newenvironment{indentsection}[1]%
-{\begin{list}{}%
-	{\setlength{\leftmargin}{#1}}%
-	\item[]%
+% ---- section headings: accent color, thin rule underneath ----
+\titleformat{\section}
+	{\normalfont\bfseries\color{accent}\fontsize{11}{13}\selectfont}
+	{}{0em}{}
+	[{\color{rule}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{0.8em}{0.35em}
+
+% ---- compact list style for bullet points ----
+\setlist[itemize]{
+	leftmargin=1.1em,
+	itemsep=1pt,
+	parsep=0pt,
+	topsep=2pt,
+	partopsep=0pt,
+	label={\color{accent}\footnotesize\textbullet}
 }
-{\end{list}}
 
-% opposite of above; bump a section back toward the left margin
-\newenvironment{unindentsection}[1]%
-{\begin{list}{}%
-	{\setlength{\leftmargin}{-0.5#1}}%
-	\item[]%
+% two-column header row: left-aligned title, right-aligned meta
+\newcommand{\entry}[4]{%
+	\textbf{#1} \hfill {\color{subtle}#2}\\
+	{\textit{#3}} \hfill {\color{subtle}\small #4}
 }
-{\end{list}}
 
-% format two pieces of text, one left aligned and one right aligned
-\newcommand{\headerrow}[2]
-{\begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
-	#1 &
-	#2 \\
-\end{tabular*}}
+\newcommand{\CPP}{C\nolinebreak[4]\hspace{-.05em}\raisebox{.22ex}{\footnotesize\bf ++}}
 
-% make "C++" look pretty when used in text by touching up the plus signs
-\newcommand{\CPP}
-{C\nolinebreak[4]\hspace{-.05em}\raisebox{.22ex}{\footnotesize\bf ++}}
-
-% and the actual content starts here
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
 
+% ---------------------------------------------------------------- header --
 \begin{center}
-{\LARGE \textbf{王占伟}}
+	{\fontsize{22}{24}\selectfont\bfseries\color{accent} 王占伟}
 
-\vspace{0.4em}
-
-(86) 138-1185-7720 
-wangzw@wangzw.org
+	\vspace{0.35em}
+	{\small\color{subtle}
+		(86) 138-1185-7720
+		\,\textbar\,
+		\href{mailto:job@zhanwei.wang}{job@zhanwei.wang}
+	}
 \end{center}
+\vspace{-0.6em}
 
-\vspace{-2em}
-\subsection*{工作经历}
+% ------------------------------------------------------------ experience --
+\section*{工作经历}
 
 \begin{itemize}
-	\parskip=0.1em
 
 	\item
-	\headerrow
-		{\textbf{易安信 / 毕威拓}}
-		{\textbf{北京}}
-	\\
-	\headerrow
-		{\emph{高级工程师}}
-		{\emph{2011 -- 至今}}
-	\begin{itemize*}
+	\entry{北京酷克数据科技有限公司 / HashData Inc.}{北京}
+		{联合创始人}{2016 -- 至今}
+	\begin{itemize}
+		\item 北京酷克数据科技有限公司是一家创业公司，基于 Greenplum 代码库打造存储、计算、元数据分离的云原生数据仓库。发起并开源了 Apache Cloudberry，作为 Greenplum Database 的继任者。
+		\item 作为联合创始人，带领研发团队打造公司云原生数据仓库平台，并领导 Apache Cloudberry 企业版的产品化与发行工作。
+		\item 领导 Release Engineer 团队，搭建公司研发基础设施与发布流程。
+		\item 带领团队向多家大型企业客户交付产品，包括中国建设银行（全球资产规模第三大银行）、恒丰银行等。
+		\item 公司规模最大时约140人；云原生数据仓库平台在生产环境达到3万节点、30PB 数据的规模。
+	\end{itemize}
+
+	\item
+	\entry{易安信 / 毕威拓}{北京}
+		{高级工程师}{2011 -- 2016}
+	\begin{itemize}
 		\item 毕威拓是易安信与威瑞公司控股的子公司，致力于云计算、大数据与应用开发。
-		\item 基于 Greenplum 分布式数据库实现HAWQ的第一个版本. HAWQ 是业界领先的SQL-On-Hadoop 产品。
-		\item 实现HAWQ的基本功能，例如创建删除表，插入与查询数据等。
-		\item 设计实现HAWQ的元数据分发与事务控制模块。
-		\item 集成HAWQ与HDFS的安全控制机制。
-	\end{itemize*}
+		\item 基于 Greenplum 分布式数据库创建 HAWQ，一款运行在 HDFS 之上的大规模并行处理 SQL 引擎，融合 MPP 数据库与 Hadoop 的优势，采用分层容错架构，完整支持标准 SQL 与事务。
+		\item 设计并实现 HAWQ 的 HDFS 访问模块，支持高效并发访问数千个 HDFS 文件，并在网络分区后避免数据竞争。
+		\item 设计并实现 HAWQ 的元数据分发模块。与 Greenplum 不同，HAWQ 的 Segment 被设计为无状态以提升可扩展性，所有元数据由 Master 统一收集并分发。
+		\item 设计并实现一套全新的简化事务控制机制，提升 HAWQ 的可扩展性。
+		\item 集成 HAWQ 与 HDFS 安全机制，实现对安全增强型 HDFS 上数据的高效查询。
+		\item 基于新架构实现 HAWQ 的核心功能（建表/删表、插入、查询等）。
+	\end{itemize}
 
 	\item
-	\headerrow
-		{\textbf{北京人大金仓信息技术股份有限公司}}
-		{\textbf{北京}}
-	\\
-	\headerrow
-		{\emph{软件工程师，实习}}
-		{\emph{2009 -- 2010}}
-	\begin{itemize*}
+	\entry{北京人大金仓信息技术股份有限公司}{北京}
+		{软件工程师，实习}{2009 -- 2010}
+	\begin{itemize}
 		\item 人大金仓致力于国产数据库及相关产品的研发。
-		\item 负责改进KingbaseES数据库优化器。通过理论分析和实验测试，发现优化器代价估计过程中的问题和不足。结合国内外的研究成果，制定并实现改进方案。提高复杂查询性能并进行TPCH性能测试。
-		\item 使得部分复杂查询的性能提高10倍以上。TPCH测试指标大幅度提升。
-	\end{itemize*}
-	
+		\item 负责改进 KingbaseES 数据库优化器。通过理论分析和实验测试，发现优化器代价估计过程中的问题和不足。结合国内外的研究成果，制定并实现改进方案。提高复杂查询性能并进行 TPCH 性能测试。
+		\item 使得部分复杂查询的性能提高10倍以上。TPCH 测试指标大幅度提升。
+	\end{itemize}
+
 	\item
-	\headerrow
-		{\textbf{播思通讯技术（北京）有限公司}}
-		{\textbf{北京}}
-	\\
-	\headerrow
-		{\emph{软件工程师，实习}}
-		{\emph{2008 -- 2009}}
-	\begin{itemize*}
+	\entry{播思通讯技术（北京）有限公司}{北京}
+		{软件工程师，实习}{2008 -- 2009}
+	\begin{itemize}
 		\item 播思是一家致力于向移动通信产业链各方提供软件解决方案的高新技术企业。
-		\item 负责windows平台下闪存工具的开发。与用户沟通，调研用户需求，重构原有工具。根据用户反映的使用情况改进工具的功能和性能。开展培训工作，介绍工具的特点和用法。
+		\item 负责 Windows 平台下闪存工具的开发。与用户沟通，调研用户需求，重构原有工具。根据用户反映的使用情况改进工具的功能和性能。开展培训工作，介绍工具的特点和用法。
 		\item 新工具的生产效率比原有工具提高一倍，被广泛应用在企业内部手机研发和生产中。
-	\end{itemize*}
+	\end{itemize}
 \end{itemize}
 
-\vspace{-2em}
-\subsection*{开源项目}
+% ---------------------------------------------------------- open source --
+\section*{开源项目}
 
 \begin{itemize}
-	\parskip=0.1em
+	\item
+	\textbf{Apache Cloudberry} \hfill {\color{subtle}\href{https://github.com/apache/cloudberry}{https://github.com/apache/cloudberry}}\\
+	\textit{Greenplum Database 的开源继任者，由 HashData Inc. 发起。}
 
-	\item 
-	\headerrow
-		{\textbf{Libhdfs3}}
-		{\textbf{http://pivotalrd.github.io/libhdfs3}}
-	\\
-	{\emph{基于 Apache Hadoop RPC 协议与 HDFS 数据传输协议实现的 HDFS C/\CPP 客户端。}}
-	
-	\item 
-	\headerrow
-		{\textbf{CppStyle}}
-		{\textbf{http://wangzw.github.io/CppStyle}}
-	\\
-	{\emph{用于集成 clang-format 与 cpplint.py 的 Eclipse 插件，用于C/\CPP代码格式化与风格检查。}}
+	\item
+	\textbf{Libhdfs3} \hfill {\color{subtle}\href{https://pivotalrd.github.io/libhdfs3}{https://pivotalrd.github.io/libhdfs3}}\\
+	\textit{基于 Apache Hadoop RPC 协议与 HDFS 数据传输协议实现的 HDFS C/\CPP\ 客户端。}
 
+	\item
+	\textbf{CppStyle} \hfill {\color{subtle}\href{https://wangzw.github.io/CppStyle}{https://wangzw.github.io/CppStyle}}\\
+	\textit{用于集成 clang-format 与 cpplint.py 的 Eclipse 插件，用于 C/\CPP\ 代码格式化与风格检查。}
 \end{itemize}
 
-\vspace{-2em}
-\subsection*{教育经历}
+% ------------------------------------------------------------- education --
+\section*{教育经历}
 
 \begin{itemize}
-	\parskip=0.1em
+	\item
+	\entry{中国人民大学}{北京}
+		{工学硕士，计算机软件与理论专业}{2008 -- 2011}
 
-	\item 
-	\headerrow
-		{\textbf{中国人民大学}}
-		{\textbf{北京}}
-	\\
-	\headerrow
-		{\emph{工学硕士, 计算机软件与理论专业}}
-		{\emph{2008 -- 2011}}
-
-	\item 
-	\headerrow
-		{\textbf{中国人民大学}}
-		{\textbf{北京}}
-	\\
-	\headerrow
-		{\emph{工学学士, 计算机科学与技术专业}}
-		{\emph{2004 -- 2008}}
-
+	\item
+	\entry{中国人民大学}{北京}
+		{工学学士，计算机科学与技术专业}{2004 -- 2008}
 \end{itemize}
 
-\vspace{-2em}
-\subsection*{发表论文}
+% ---------------------------------------------------------- publications --
+\section*{发表论文}
 
 \begin{itemize}
-	\parskip=0.1em
-
-	\item 
-	\headerrow
-		{\textbf{HAWQ: a massively parallel processing SQL engine in Hadoop}}
-		{\textbf{2014年7月}}
-	\\
-	{\emph{Proceedings of the 2014 ACM SIGMOD international conference on Management of data}}
+	\item
+	\textbf{HAWQ: a massively parallel processing SQL engine in Hadoop} \hfill {\color{subtle}2014年7月}\\
+	\textit{Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data}
 \end{itemize}
 
-\vspace{-2em}
-\subsection*{专业技能}
+% ------------------------------------------------------- technical skills --
+\section*{专业技能}
 
-\begin{indentsection}{\parindent}
-\hyphenpenalty=1000
-\begin{description*}
-	\item[编程语言:]
-	C, \CPP, Java, Python, shell script, SQL
-	\item[参与开源项目:]
-	Apache HDFS, Baidu sofa-pbrpc
-	\item[Github 主页:]
-	https://github.com/wangzw
-\end{description*}
-\end{indentsection}
+\begin{itemize}[label={}, leftmargin=0pt, itemsep=2pt]
+	\item \textbf{编程语言与工具：}C, \CPP, Java, Python, Go, shell script, SQL, Spring Boot, Kubernetes
+	\item \textbf{参与开源项目：}Apache HAWQ, Apache HDFS, Apache Cloudberry
+	\item \textbf{Github 主页：}\href{https://github.com/wangzw}{https://github.com/wangzw}
+\end{itemize}
 
 \end{CJK}
 \end{document}

@@ -1,221 +1,186 @@
 % !TEX encoding = UTF-8 Unicode
 % resume.tex
 % vim:set ft=tex spell:
+%
+% Minimalist single-column resume template.
+% Uses pdflatex + the classic CJK package (Arphic Type 1 fonts) and the
+% Helvetica Type 1 clone (helvet) for the Latin text. Type 1 fonts are the
+% most universally supported font format across PDF viewers (Preview,
+% Acrobat, Poppler/Okular/Evince, browsers, ...), which matters more here
+% than the marginally nicer OpenType rendering XeLaTeX + Fandol would give.
 
-\documentclass[10pt,letterpaper]{article}
-\usepackage[a4paper, top=2.0cm, left=2.0cm, right=2.0cm, bottom=0cm]{geometry}
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper, top=0.7cm, left=2.0cm, right=2.0cm, bottom=0.7cm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{CJK}
-\usepackage{mdwlist}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
-\usepackage{tgpagella}
+\usepackage{CJK}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{accent}{RGB}{31,58,94}
+\definecolor{subtle}{RGB}{100,100,100}
+\definecolor{rule}{RGB}{200,200,200}
+
 \pagestyle{empty}
-\setlength{\tabcolsep}{0em}
+\setlength{\parindent}{0pt}
 
-% indentsection style, used for sections that aren't already in lists
-% that need indentation to the level of all text in the document
-\newenvironment{indentsection}[1]%
-{\begin{list}{}%
-	{\setlength{\leftmargin}{#1}}%
-	\item[]%
+% ---- section headings: accent color, thin rule underneath ----
+\titleformat{\section}
+	{\normalfont\bfseries\color{accent}\fontsize{11}{13}\selectfont}
+	{}{0em}{}
+	[{\color{rule}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{0.4em}{0.2em}
+
+% ---- compact list style for bullet points ----
+\setlist[itemize]{
+	leftmargin=1.1em,
+	itemsep=0pt,
+	parsep=0pt,
+	topsep=1pt,
+	partopsep=0pt,
+	label={\color{accent}\footnotesize\textbullet}
 }
-{\end{list}}
 
-% opposite of above; bump a section back toward the left margin
-\newenvironment{unindentsection}[1]%
-{\begin{list}{}%
-	{\setlength{\leftmargin}{-0.5#1}}%
-	\item[]%
+% two-column header row: left-aligned title, right-aligned meta
+\newcommand{\entry}[4]{%
+	\textbf{#1} \hfill {\color{subtle}#2}\\
+	{\textit{#3}} \hfill {\color{subtle}\small #4}
 }
-{\end{list}}
 
-% format two pieces of text, one left aligned and one right aligned
-\newcommand{\headerrow}[2]
-{\begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
-	#1 &
-	#2 \\
-\end{tabular*}}
+\newcommand{\CPP}{C\nolinebreak[4]\hspace{-.05em}\raisebox{.22ex}{\footnotesize\bf ++}}
 
-% make "C++" look pretty when used in text by touching up the plus signs
-\newcommand{\CPP}
-{C\nolinebreak[4]\hspace{-.05em}\raisebox{.22ex}{\footnotesize\bf ++}}
-
-% and the actual content starts here
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
 
+% ---------------------------------------------------------------- header --
 \begin{center}
-{\LARGE \textbf{Zhanwei Wang (王占伟)}}
+	{\fontsize{20}{22}\selectfont\bfseries\color{accent} Zhanwei Wang \normalsize(王占伟)}
 
-\vspace{0.4em}
-
-(86) 138-1185-7720 
-wangzw@wangzw.org
+	\vspace{0.25em}
+	{\small\color{subtle}
+		(86) 138-1185-7720
+		\,\textbar\,
+		\href{mailto:job@zhanwei.wang}{job@zhanwei.wang}
+	}
 \end{center}
+\vspace{-0.8em}
 
-\vspace{-6mm}
-\subsection*{Experience}
-\vspace{-2mm}
+% ------------------------------------------------------------ experience --
+\section*{Experience}
 
 \begin{itemize}
-	\parskip=0.2mm
 
 	\item
-	\headerrow
-		{\textbf{EMC Corporation / Pivotal Software Inc.}}
-		{\textbf{Beijing, China}}
-	\\
-	\headerrow
-		{\emph{Senior Member of Technical Staff}}
-		{\emph{2011 -- present}}
-	\begin{itemize*}
-		\item Pivotal Software is a spin-out and joint venture of EMC Corporation and its subsidiary VMware that focus on cloud computing, big data and applications.
-		
-		\item Create HAWQ from Greenplum Database code base. 
-		HAWQ is a massively parallel processing SQL engine sitting on top of HDFS. 
-		As a hybrid of MPP database and Hadoop, it inherits the merits from both parties. 
-		It adopts a layered architecture and relies on the distributed file system for data replication and fault tolerance. 
-		In addition, it is standard SQL compliant and fully transactional.
-		
-		\item Design and implement the HDFS accessing module for HAWQ. 
-		Provide the ability of efficiently accessing thousands of HDFS files concurrently. 
-		Design the mechanism to avoid the data racing after the network partition.
-		
-		\item Design and implement the metadata dispatching module for HAWQ.
-		Unlike Greenplum Database, 
-		HAWQ segment is designed as stateless and not allowed to access the metadata to boost the scalability. 
-		All metadata used by segments is collected by the master and dispatched to segments.
-		
-		\item Design and implement the transaction control module for HAWQ. 
-		A novel and much simple transaction control mechanism is invented to boost the HAWQ scalability.
-			
-		\item Integrate HAWQ and HDFS security mechanism. 
-		Design and implement an efficient way to query the data on security enabled HDFS.
-		
-		\item Implement basic functionalities of HAWQ such as creating, 
-		dropping table, inserting, querying data and etc based on the new module and architecture design of HAWQ.
+	\entry{HashData Inc.}{Beijing, China}
+		{Co-Founder}{2016 -- present}
+	\begin{itemize}
+		\item HashData is a startup building a cloud-native data warehouse with separated storage, compute, and metadata, based on the Greenplum codebase. It initiated and open-sourced Apache Cloudberry, a successor to Greenplum Database.
 
-	\end{itemize*}
+		\item As co-founder, led the R\&D team building the company's cloud-native data warehouse platform, and drove the productization and enterprise distribution of Apache Cloudberry.
+
+		\item Led the Release Engineering team, building the company's R\&D infrastructure and release process.
+
+		\item Led the team in delivering to major enterprise customers, including China Construction Bank (the world's 3rd-largest bank by assets), Hengfeng Bank, and others.
+
+		\item Grew the company to about 140 people at peak; the cloud-native data warehouse platform runs at a scale of up to 30,000 nodes and 30 PB of data in production.
+	\end{itemize}
 
 	\item
-	\headerrow
-		{\textbf{Beijing BaseSoft Information Technologies Inc.}}
-		{\textbf{Beijing, China}}
-	\\
-	\headerrow
-		{\emph{Software Engineer, Intern}}
-		{\emph{2009 -- 2010}}
-	\begin{itemize*}
-		\item Kingbase is a famous database brand in China and used by  many domestic companies. 
-		
-		\item In charge of improving the database optimizer for complex query and improving TPCH benchmark test result. 
-		By theoretical analysis and experimental testing, find out the problems and deficiencies of optimizer in the process of costs estimating. 
-		Based on the public research results, design and implement the solution. 
-		
+	\entry{EMC Corporation / Pivotal Software Inc.}{Beijing, China}
+		{Senior Member of Technical Staff}{2011 -- 2016}
+	\begin{itemize}
+		\item Pivotal Software is a spin-out and joint venture of EMC Corporation and its subsidiary VMware, focusing on cloud computing, big data, and applications.
+
+		\item Created HAWQ, a massively parallel SQL engine on HDFS combining the strengths of MPP databases and Hadoop, with a layered, fault-tolerant architecture and full SQL/transactional support.
+
+		\item Designed and implemented HAWQ's HDFS access module, enabling efficient concurrent access to thousands of files while avoiding data races after network partitions.
+
+		\item Designed and implemented HAWQ's metadata dispatching module, keeping segments stateless (unlike Greenplum) for better scalability, with the master collecting and dispatching all metadata.
+
+		\item Designed and implemented a novel, simplified transaction control mechanism for HAWQ to improve scalability.
+
+		\item Integrated HAWQ with HDFS security, enabling efficient querying of data on security-enabled HDFS.
+
+		\item Implemented core HAWQ functionality (create/drop table, insert, query) on top of the new architecture.
+	\end{itemize}
+
+	\item
+	\entry{Beijing BaseSoft Information Technologies Inc.}{Beijing, China}
+		{Software Engineer, Intern}{2009 -- 2010}
+	\begin{itemize}
+		\item Kingbase is a famous database brand in China and used by many domestic companies.
+
+		\item Improved the query optimizer's cost estimation for complex queries, driving TPCH benchmark gains, based on theoretical analysis, experimental testing, and published research.
+
 		\item The score of TPCH test is improved almost 50\% and the execution time of some complex queries is reduced nearly 10 times.
-	\end{itemize*}
-	
+	\end{itemize}
+
 	\item
-	\headerrow
-		{\textbf{Borqs International Holding Corp.}}
-		{\textbf{Beijing, China}}
-	\\
-	\headerrow
-		{\emph{Software Engineer, Intern}}
-		{\emph{2008 -- 2009}}
-	\begin{itemize*}
-		\item Borqs is a hi-tech enterprise dedicated to providing end-to-end software solutions for the whole industrial chain of mobile communications. 
-		
-		\item Responsible for development of flash memory tools under windows platform. 
-		Communicate with users, collect user requirements, reconstruct original tools. 
-		Improve tools based on the feedback. 
-		
-		\item Improved the efficiency twice than that of the old one. These tools are widely used in development and smart phone manufacture in factory. 
-	\end{itemize*}
+	\entry{Borqs International Holding Corp.}{Beijing, China}
+		{Software Engineer, Intern}{2008 -- 2009}
+	\begin{itemize}
+		\item Borqs is a high-tech enterprise providing software solutions across the mobile communications industry.
+
+		\item Rebuilt the company's flash memory tools for Windows, working directly with users to gather requirements and iterate based on feedback; ran training sessions on the tools' features and usage.
+
+		\item Doubled production efficiency over the previous tools, which were widely adopted for in-house phone R\&D and manufacturing.
+	\end{itemize}
 \end{itemize}
 
-\vspace{-8mm}
-\subsection*{Open Source Project}
-\vspace{-2mm}
+% ---------------------------------------------------------- open source --
+\section*{Open Source Project}
 
-\begin{itemize*}
-	\parskip=0.2mm
+\begin{itemize}
+	\item
+	\textbf{Apache Cloudberry} \hfill {\color{subtle}\href{https://github.com/apache/cloudberry}{https://github.com/apache/cloudberry}}\\
+	\textit{Open-source successor to Greenplum Database, initiated by HashData.}
 
-	\item 
-	\headerrow
-		{\textbf{Libhdfs3}}
-		{\textbf{http://pivotalrd.github.io/libhdfs3}}
-	\\
-	{\emph{A native C/\CPP\  HDFS client based on Apache Hadoop RPC protocol and HDFS data transfer protocol.}}
-	
-	\item 
-	\headerrow
-		{\textbf{CppStyle}}
-		{\textbf{http://www.cppstyle.com}}
-	\\
-	{\emph{An Eclipse plugin that integrates clang-format and cpplint.py. Used to format C/\CPP\ code and check coding style.}}
+	\item
+	\textbf{Libhdfs3} \hfill {\color{subtle}\href{https://pivotalrd.github.io/libhdfs3}{https://pivotalrd.github.io/libhdfs3}}\\
+	\textit{A native C/\CPP\  HDFS client based on Apache Hadoop RPC protocol and HDFS data transfer protocol.}
 
-\end{itemize*}
+	\item
+	\textbf{CppStyle} \hfill {\color{subtle}\href{https://wangzw.github.io/CppStyle}{https://wangzw.github.io/CppStyle}}\\
+	\textit{An Eclipse plugin integrating clang-format and cpplint.py for C/\CPP\ code formatting and style checks.}
+\end{itemize}
 
-\vspace{-8mm}
-\subsection*{Education}
-\vspace{-2mm}
+% ------------------------------------------------------------- education --
+\section*{Education}
 
-\begin{itemize*}
-	\parskip=0.2mm
+\begin{itemize}
+	\item
+	\entry{Renmin University of China}{Beijing, China}
+		{Master of Engineering, Computer Software \& Theory}{2008 -- 2011}
 
-	\item 
-	\headerrow
-		{\textbf{Renmin University of China}}
-		{\textbf{Beijing, China}}
-	\\
-	\headerrow
-		{\emph{Master of Engineering, Computer Software \& Theory}}
-		{\emph{2008 -- 2011}}
+	\item
+	\entry{Renmin University of China}{Beijing, China}
+		{Bachelor of Engineering, Computer Science}{2004 -- 2008}
+\end{itemize}
 
-	\item 
-	\headerrow
-		{\textbf{Renmin University of China}}
-		{\textbf{Beijing, China}}
-	\\
-	\headerrow
-		{\emph{Bachelor of Engineering, Computer Science}}
-		{\emph{2004 -- 2008}}
+% ---------------------------------------------------------- publications --
+\section*{Publications}
 
-\end{itemize*}
+\begin{itemize}
+	\item
+	\textbf{HAWQ: a massively parallel processing SQL engine in Hadoop} \hfill {\color{subtle}June 2014}\\
+	\textit{Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data}
+\end{itemize}
 
-\vspace{-8mm}
-\subsection*{Publications}
-\vspace{-2mm}
+% ------------------------------------------------------- technical skills --
+\section*{Technical Skills}
 
-\begin{itemize*}
-	\parskip=0.2mm
-
-	\item 
-	\headerrow
-		{\textbf{HAWQ: a massively parallel processing SQL engine in Hadoop}}
-		{\textbf{June, 2014}}
-	\\
-	{\emph{Proceedings of the 2014 ACM SIGMOD international conference on Management of data}}
-
-\end{itemize*}
-
-\vspace{-8mm}
-\subsection*{Technical Skills}
-\vspace{-2mm}
-
-\begin{indentsection}{\parindent}
-\hyphenpenalty=1000
-\begin{description*}
-	\item[Languages:]
-	C, \CPP, Java, Python, shell script, SQL
-	\item[Open Source Contributions:]
-	Apache HDFS, Baidu sofa-pbrpc
-	\item[Github:]
-	https://github.com/wangzw
-\end{description*}
-\end{indentsection}
+\begin{itemize}[label={}, leftmargin=0pt, itemsep=0pt]
+	\item \textbf{Languages \& Tools:} C, \CPP, Java, Python, Go, shell script, SQL, Spring Boot, Kubernetes
+	\item \textbf{Open Source Contributions:} Apache HAWQ, Apache HDFS, Apache Cloudberry
+	\item \textbf{Github:} \href{https://github.com/wangzw}{https://github.com/wangzw}
+\end{itemize}
 
 \end{CJK}
 \end{document}

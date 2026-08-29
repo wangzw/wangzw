@@ -1,0 +1,20 @@
+# 这是 public 仓库 —— 提交前想清楚内容是否适合公开
+
+# 浏览器自动化产物：accessibility 快照会包含他人主页链接等第三方标识符
+.playwright-cli/
+*.yml
+*.yaml
+!.github/**/*.yml
+!.github/**/*.yaml
+
+# 截图：可能是登录态界面
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# 构建产物：简历 PDF 由 .github/workflows/resume.yaml 自动构建发布
+resume/*.pdf
+
+# 系统文件
+.DS_Store
